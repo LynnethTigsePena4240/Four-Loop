@@ -7,7 +7,7 @@
 | Item | Details |
 | :--- | :--- |
 | **Team Name** | The 404s v.2.0 |
-| **Divine Peralta** | Introduction Pending |
+| **Divine Peralta** | My name is Divine and I’m excited to expand my knowledge on creating web applications. |
 | **Krishna Pushparajah** | I’m Krishna and I’ve always wanted to make a product management application. I’m excited to see it come together. |
 | **Lena Mukhtar** | I am Lena and I’m looking forward to building the e-commerce application. |
 | **Lynneth Tigse-Pena** | I'm Lynneth and I'm looking forward to making something new that I haven't coded before. |
