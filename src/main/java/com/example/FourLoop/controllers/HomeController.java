@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class HomeController {
     @GetMapping("/")
     public String getHomePage(Model model){
-        model.addAttribute("message","Four Loop");
+        model.addAttribute("message","Welcome");
         return "Home";
     }
 }

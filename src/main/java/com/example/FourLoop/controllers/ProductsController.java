@@ -5,10 +5,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
-public class PlaceHolderController {
-    @GetMapping("/placeHolder")
-    public String getPlaceHolderPage(Model model){
-        model.addAttribute("message","Place holder Title");
-        return "PlaceHolder";
+public class ProductsController {
+    @GetMapping("/products")
+    public String getProductsPage(Model model){
+        model.addAttribute("message","Products");
+        return "Products";
     }
 }
