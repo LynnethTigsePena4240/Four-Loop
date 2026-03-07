@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>About Page</title>
+  <div th:insert="fragments/base :: assetsHead"></div>
+</head>
+<body>
+
+<nav th:replace="fragments/navbar :: navbar"></nav>
+<div class="app-container text-center">
+  <div class="players-card">
+    <h1 th:text="${message}">Four Loop</h1>
+
+
+  </div>
+</div>
+
+<div th:insert="fragments/base :: assetsScripts"></div>
+</body>
+</html>
