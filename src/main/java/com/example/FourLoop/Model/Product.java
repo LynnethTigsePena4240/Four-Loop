@@ -25,11 +25,16 @@ public class Product {
     @Column(name = "name")
     private String name;
 
-    @Min(value = 0, message = "Quantity must be 0 or greater")
-    @Column(name = "quantity")
-    private int quantity;
 
     @Positive(message = "Price must be greater than 0")
     @Column(name = "price")
     private double price;
+
+    @Min(value = 0, message = "Quantity must be 0 or greater")
+    @Column(name = "quantity")
+    private int quantity;
+
+
+    
+
 }

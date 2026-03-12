@@ -33,21 +33,6 @@
                 </div>
             </div>
 
-            <div class="mb-3">
-                <label for="quantity" class="form-label">Quantity</label>
-                <input
-                        type="number"
-                        class="form-control"
-                        id="quantity"
-                        th:field="*{quantity}"
-                        th:classappend="${#fields.hasErrors('quantity')} ? ' is-invalid' : ''"
-                        required>
-                <div class="invalid-feedback"
-                     th:if="${#fields.hasErrors('quantity')}"
-                     th:errors="*{quantity}">
-                    Quantity Error.
-                </div>
-            </div>
 
             <div class="mb-3">
                 <label for="price" class="form-label">Price</label>
@@ -63,6 +48,22 @@
                      th:if="${#fields.hasErrors('price')}"
                      th:errors="*{price}">
                     Price Error.
+                </div>
+            </div>
+
+             <div class="mb-3">
+                <label for="quantity" class="form-label">Quantity</label>
+                <input
+                        type="number"
+                        class="form-control"
+                        id="quantity"
+                        th:field="*{quantity}"
+                        th:classappend="${#fields.hasErrors('quantity')} ? ' is-invalid' : ''"
+                        required>
+                <div class="invalid-feedback"
+                     th:if="${#fields.hasErrors('quantity')}"
+                     th:errors="*{quantity}">
+                    Quantity Error.
                 </div>
             </div>
 

@@ -9,6 +9,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
@@ -61,5 +64,29 @@ public class ProductsController {
         model.addAttribute("endIndex", endIndex);
 
         return "Products";
+    }
+
+    @GetMapping("/delete-product/{id}")
+    public String deleteProduct(@PathVariable int id) {
+        productService.deleteProductById(id);
+        return "redirect:/products";
+    }
+
+    @GetMapping("/update-product/{id}")
+    public String showUpdateProductForm(@PathVariable int id, Model model) {
+        Product product = productService.getProductById(id);
+
+        if (product == null) {
+            return "redirect:/products";
+        }
+
+        model.addAttribute("product", product);
+        return "UpdateProduct";
+    }
+
+    @PostMapping("/update-product/{id}")
+    public String updateProduct(@PathVariable int id, @ModelAttribute("product") Product product) {
+        productService.updateProduct(id, product);
+        return "redirect:/products";
     }
 }
