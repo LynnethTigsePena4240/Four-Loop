@@ -1,72 +1,66 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <title>Update Inventory</title>
-    <div th:insert="fragments/base :: assetsHead"></div>
+    <div th:insert="~{fragments/base :: assetsHead}"></div>
 </head>
 
 <body>
 
-<nav th:replace="fragments/navbar :: navbar"></nav>
+    <nav th:replace="~{fragments/navbar :: navbar}"></nav>
 
-<div class="app-container">
+    <div class="app-container">
 
-    <!-- Page Header -->
-    <div class="app-header text-center">
-        <h2>Update Inventory</h2>
-        <p class="text-muted">Update the stock information below</p>
-    </div>
+        <div class="app-header text-center">
+            <h2>Update Inventory</h2>
+            <p class="text-muted">Update the stock information below</p>
+        </div>
 
-    <!-- Card -->
-    <div class="product-card" style="max-width: 500px; margin: 0 auto; padding: 25px;">
+        <div class="product-card" style="max-width: 500px; margin: 0 auto; padding: 25px;">
 
-        <form th:action="@{/inventory/edit/{id}(id=${product.id})}"
-              th:object="${product}"
-              method="post"
-              style="display: flex; flex-direction: column; gap: 18px;">
+            <form th:action="@{/inventory/edit/{id}(id=${product.id})}" th:object="${product}" method="post"
+                style="display: flex; flex-direction: column; gap: 18px;">
 
-            <input type="hidden" th:field="*{id}" />
+                <input type="hidden" th:field="*{id}" />
+                <input type="hidden" th:field="*{price}" />
+                <input type="hidden" th:field="*{createdAt}" />
 
-            <!-- Product Name -->
-            <div>
-                <label style="font-weight:600; margin-bottom:5px;">Product Name</label>
-                <input type="text"
-                       th:field="*{name}"
-                       readonly
-                       style="width:100%; padding:10px; border:1px solid #ddd; border-radius:4px; background:#f8f9fa;">
-            </div>
+                <div>
+                    <label style="font-weight:600; margin-bottom:5px;">Product Name</label>
+                    <input type="text" th:field="*{name}" readonly
+                        style="width:100%; padding:10px; border:1px solid #ddd; border-radius:4px; background:#f8f9fa;">
+                </div>
 
-            <!-- Quantity -->
-            <div>
-                <label style="font-weight:600; margin-bottom:5px;">Quantity</label>
-                <input type="number"
-                       th:field="*{quantity}"
-                       placeholder="Enter quantity"
-                       min="0"
-                       style="width:100%; padding:10px; border:1px solid #ddd; border-radius:4px;">
-            </div>
+                <div>
+                    <label style="font-weight:600; margin-bottom:5px;">Quantity</label>
+                    <input type="number" th:field="*{quantity}" placeholder="Enter quantity" min="0"
+                        style="width:100%; padding:10px; border:1px solid #ddd; border-radius:4px;">
+                    <p th:if="${#fields.hasErrors('quantity')}" th:errors="*{quantity}"
+                        style="color:red; font-size:0.8em; margin-top:5px;"></p>
+                </div>
 
-            <!-- Buttons -->
-            <div style="display:flex; gap:10px; margin-top:10px;">
-                <button type="submit"
+                <div style="display:flex; gap:10px; margin-top:10px;">
+                    <button type="submit"
                         style="flex:1; padding:10px; background-color:#007bff; color:white; border:none; border-radius:4px; font-weight:600; cursor:pointer;">
-                    Update Stock
-                </button>
+                        Update Stock
+                    </button>
 
-                <a th:href="@{/inventory}"
-                   style="flex:1; text-align:center; padding:10px; background-color:#6c757d; color:white; border-radius:4px; text-decoration:none; font-weight:600;">
-                    Cancel
-                </a>
-            </div>
+                    <a th:href="@{/inventory}"
+                        style="flex:1; text-align:center; padding:10px; background-color:#6c757d; color:white; border-radius:4px; text-decoration:none; font-weight:600;">
+                        Cancel
+                    </a>
+                </div>
 
-        </form>
+            </form>
+
+        </div>
 
     </div>
 
-</div>
-
-<div th:insert="fragments/base :: assetsScripts"></div>
+    <div th:insert="~{fragments/base :: assetsScripts}"></div>
 
 </body>
+
 </html>

@@ -1,12 +1,13 @@
 package com.example.FourLoop.Service;
 
-import com.example.FourLoop.Model.Product;
-import com.example.FourLoop.Repository.ProductRepository;
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import com.example.FourLoop.Model.Product;
+import com.example.FourLoop.Repository.ProductRepository;
 
 @Service
 public class ProductService {
@@ -36,9 +37,7 @@ public class ProductService {
     public Product getProductById(int id) {
         return repo.findById(id).orElse(null);
     }
-      
 
-    // Delete a product by ID or update a product by ID
     public void deleteProductById(int id) {
         repo.deleteById(id);
     }
@@ -51,17 +50,5 @@ public class ProductService {
             existingProduct.setQuantity(updatedProduct.getQuantity());
             repo.save(existingProduct);
         }
-    }
-
-    public Page<Product> getProductsSortedByPrice(Pageable pageable) {
-        return repo.findAllByOrderByPriceAsc(pageable);
-    }
-
-    public Page<Product> getProductsSortedByName(Pageable pageable) {
-        return repo.findAllByOrderByNameAsc(pageable);
-    }
-
-    public Page<Product> getProductSortedByQuantity(Pageable pageable) {
-        return repo.findAllByOrderByQuantityAsc(pageable);
     }
 }
