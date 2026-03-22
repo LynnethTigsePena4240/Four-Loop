@@ -1,4 +1,4 @@
-<nav th:fragment="navbar" class="navbar navbar-expand-lg navbar-dark bg-dark" xmlns:th="http://www.w3.org/1999/xhtml">
+<nav th:fragment="navbar" class="navbar navbar-expand-lg navbar-dark bg-dark" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
   <div class="container-fluid">
     <a class="navbar-brand" th:href="@{/}">Four Loop Inventory</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -19,6 +19,10 @@
           <a class="nav-link" th:href="@{/inventory}">Inventory</a>
         </li>
       </ul>
+
+      <form th:action="@{/logout}" method="post" sec:authorize="isAuthenticated()">
+        <button class="btn btn-outline-danger ms-2" type="submit">Logout</button>
+      </form>
    
     </div>
   </div>
