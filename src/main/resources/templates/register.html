@@ -13,7 +13,7 @@
 
         body {
             font-family: Arial, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #8EB8E5 0%, #7C99B4 100%);
             min-height: 100vh;
             display: flex;
             justify-content: center;
@@ -21,17 +21,17 @@
         }
 
         .container {
-            background: white;
+            background: #f9f7f4;
             padding: 40px;
             border-radius: 10px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
             width: 100%;
             max-width: 400px;
         }
 
         h1 {
             text-align: center;
-            color: #333;
+            color: #492C1D;
             margin-bottom: 30px;
             font-size: 28px;
         }
@@ -43,7 +43,7 @@
         label {
             display: block;
             margin-bottom: 8px;
-            color: #555;
+            color: #5B5750;
             font-weight: bold;
         }
 
@@ -54,31 +54,32 @@
             border: 1px solid #ddd;
             border-radius: 5px;
             font-size: 14px;
-            transition: border-color 0.3s;
+            transition: border-color 0.3s, box-shadow 0.3s;
+            background: #ffffff;
         }
 
         input[type="text"]:focus,
         input[type="password"]:focus {
             outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 5px rgba(102, 126, 234, 0.3);
+            border-color: #7C99B4;
+            box-shadow: 0 0 6px rgba(124, 153, 180, 0.5);
         }
 
         button {
             width: 100%;
             padding: 12px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background-color: #7C99B4;
             color: white;
             border: none;
             border-radius: 5px;
             font-size: 16px;
             font-weight: bold;
             cursor: pointer;
-            transition: transform 0.2s;
+            transition: background-color 0.3s ease;
         }
 
         button:hover {
-            transform: translateY(-2px);
+            background-color: #6B7F82;
         }
 
         .links {
@@ -87,7 +88,7 @@
         }
 
         .links a {
-            color: #667eea;
+            color: #5B5750;
             text-decoration: none;
             margin: 0 5px;
         }
