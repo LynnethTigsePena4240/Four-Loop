@@ -39,18 +39,29 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable()) // CSRF disabled globally — ignoringRequestMatchers not needed
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/register", "/login").permitAll()
-                        .anyRequest().authenticated()
+                        
+                        // admin only
+                        .requestMatchers("/delete-product/**", "/admin/**").hasRole("ADMIN")
+                        // admin and user can view/update inventory
+                        .requestMatchers("/", "/products", "/products/**", "/inventory", "/inventory/**", "/inventory-update", "/about")
+                        .hasAnyRole("ADMIN", "USER")
+                        // everything else only admin   
+                        .anyRequest().hasRole("ADMIN")
                 )
                 .formLogin(form -> form
                         .loginPage("/login")
                         .defaultSuccessUrl("/", true)
                         .permitAll()
                 )
-                .logout(logout -> logout.logoutSuccessUrl("/login"))
+                .logout(logout -> logout.logoutSuccessUrl("/login?logout")
+                                        .permitAll()
+                        )
                 .headers(headers -> headers
                         .frameOptions(frame -> frame.sameOrigin())
-                );
+                        );
 
         return http.build();
     }
+
+
 }
