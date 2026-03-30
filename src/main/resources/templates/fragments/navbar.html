@@ -1,37 +1,37 @@
-<nav th:fragment="navbar" class="navbar navbar-expand-lg navbar-dark bg-dark" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<nav th:fragment="navbar" class="navbar navbar-expand-lg navbar-dark bg-dark" xmlns:th="http://www.thymeleaf.org"
+  xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
   <div class="container-fluid">
-    <a class="navbar-brand" th:href="@{/}">Four Loop Inventory</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <a class="navbar-brand" th:href="@{/}">Four Loop</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navContent">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+    <div class="collapse navbar-collapse" id="navContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <div sec:authorize="hasAnyRole('ADMIN','USER')">
-            <a class="nav-link" aria-current="page" th:href="@{/}">Home</a>
-          </div>
+        <li class="nav-item"><a class="nav-link" th:href="@{/}">Home</a></li>
+        <li class="nav-item"><a class="nav-link" th:href="@{/about}">About</a></li>
+
+        <li class="nav-item" sec:authorize="isAuthenticated()">
+          <a class="nav-link" th:href="@{/products}">Products</a>
         </li>
-        <li class="nav-item">
-          <div sec:authorize="hasAnyRole('ADMIN','USER')">
-            <a class="nav-link" th:href="@{/about}">About</a>
-          </div>
-        </li>
-        <li class="nav-item">
-          <div sec:authorize="hasAnyRole('ADMIN','USER')">
-            <a class="nav-link" th:href="@{/products}">Products</a>
-          </div>
-        </li>
-        <li class="nav-item">
-          <div sec:authorize="hasAnyRole('ADMIN','USER')">
-            <a class="nav-link" th:href="@{/inventory}">Inventory</a>
-          </div>
+
+        <li class="nav-item" sec:authorize="hasAnyRole('STAFF', 'ADMIN')">
+          <a class="nav-link fw-bold text-info" th:href="@{/inventory}">Inventory Dashboard</a>
         </li>
       </ul>
 
-      <form th:action="@{/logout}" method="post" sec:authorize="isAuthenticated()">
-        <button class="btn btn-outline-danger ms-2" type="submit">Logout</button>
-      </form>
-   
+      <div class="d-flex align-items-center">
+        <span class="text-light me-3" sec:authorize="isAuthenticated()">
+          Hello, <span class="text-warning" sec:authentication="name">User</span>
+          [<small sec:authentication="principal.authorities"></small>]
+        </span>
+
+        <a th:href="@{/login}" class="btn btn-outline-success btn-sm" sec:authorize="!isAuthenticated()">Login</a>
+
+        <form th:action="@{/logout}" method="post" sec:authorize="isAuthenticated()" class="m-0">
+          <button class="btn btn-outline-danger btn-sm" type="submit">Logout</button>
+        </form>
+      </div>
     </div>
   </div>
 </nav>

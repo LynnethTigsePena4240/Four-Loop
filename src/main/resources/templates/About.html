@@ -1,24 +1,28 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <title>About Page</title>
-    <div th:insert="fragments/base :: assetsHead"></div>
+    <div th:replace="~{fragments/base :: assetsHead}"></div>
 </head>
+
 <body>
 
-<nav th:replace="fragments/navbar :: navbar"></nav>
-<div class="app-container text-center">
-    <div class="product-card">
-        <h1 th:text="${message}">Four Loop</h1>
-        <p class="fs-5">We are a group of students in the Computer Programming and
-            Computer Systems Analysis programs demonstrating our understanding of
-            Spring Boot by applying our knowledge outside the classroom. </p>
+    <nav th:replace="~{fragments/navbar :: navbar}"></nav>
 
-        <img src="https://media1.tenor.com/m/wNyAB3uTpH0AAAAC/anchorman-jump.gif">
+    <div class="app-container text-center">
+        <div class="product-card">
+            <h1 th:text="${message}">Four Loop</h1>
+            <p class="fs-5">We are a group of students in the Computer Programming and
+                Computer Systems Analysis programs demonstrating our understanding of
+                Spring Boot by applying our knowledge outside the classroom. </p>
+
+            <img src="https://media1.tenor.com/m/wNyAB3uTpH0AAAAC/anchorman-jump.gif" alt="Team Celebration">
+        </div>
     </div>
-</div>
 
-<div th:insert="fragments/base :: assetsScripts"></div>
+    <div th:replace="~{fragments/base :: assetsScripts}"></div>
 </body>
+
 </html>

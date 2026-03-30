@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/base :: assetsHead}">
+    <title>Access Denied - Four Loop</title>
+</head>
+
+<body class="bg-light">
+    <nav th:replace="~{fragments/navbar :: navbar}"></nav>
+
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8 text-center">
+                <div class="card shadow-sm border-0 p-5">
+                    <div class="card-body">
+                        <h1 class="display-4 text-danger mb-3">403 - Restricted Access</h1>
+                        <p class="lead">You are logged in, but your account doesn't have the permissions needed for this
+                            page.</p>
+                        <hr class="my-4">
+                        <p>Currently logged in as: <strong class="text-primary" sec:authentication="name">User</strong>
+                        </p>
+
+                        <div class="d-grid gap-2 d-md-block mt-4">
+                            <a th:href="@{/}" class="btn btn-dark px-4">Back to Home</a>
+                            <form th:action="@{/logout}" method="post" class="d-inline">
+                                <button type="submit" class="btn btn-outline-danger px-4">Switch to Admin
+                                    Account</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div th:replace="~{fragments/base :: assetsScripts}"></div>
+</body>
+
+</html>
