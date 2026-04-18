@@ -50,3 +50,35 @@ We have designed a clean, grid-based UI for the following views:
 * **Home/Dashboard**: Summary of products, inventory, and centers.
 * **Product Management**: Views for adding and searching for items.
 * **Inventory & Centers**: Dedicated pages to manage stock across locations.
+
+---
+
+## Running the Application
+
+**Important:** Docker Desktop must be installed and running.
+
+1. **Clone the respository**
+   ```bash
+   git clone https://github.com/LynnethTigsePena4240/Four-Loop.git
+   cd Four-Loop
+   ```
+3. **Build the application**
+   ```bash
+   docker compose build
+   ```
+5. **Start the application**
+   ```bash
+   docker compose up -d
+   ```
+6. **Open in browser**
+   ```bash
+   http://localhost:8080
+   ```
+   
+
+## Work Distribution 
+
+* **Divine Peralta:** Form Layout and UI Design/Theme
+* **Krishna Pushparajah:** Database Persistence and Protected Routes 
+* **Lena Mukhtar:** Search and Sort View and Admin Interface and Roles 
+* **Lynneth Tigse-Pena:** Navigation, Pages and User, Registration and Log-in Page 
