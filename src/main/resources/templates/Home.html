@@ -4,27 +4,34 @@
 <head>
   <meta charset="UTF-8">
   <title>Home Page</title>
-  <div th:replace="~{fragments/base :: assetsHead}"></div>
+  <th:block th:replace="~{fragments/base :: assetsHead}"></th:block>
 </head>
 
 <body>
 
   <nav th:replace="~{fragments/navbar :: navbar}"></nav>
 
-  <main class="app-container text-center">
-    <div class="product-card">
-      <h1 th:text="${message}">Welcome</h1>
+  <main class="app-container center-page">
+    <div class="product-card center-content">
+      <img th:src="@{/images/logo.png}" alt="Logo" class="app-logo">
+
+      <h1 class="heading-1" th:text="${message}">Welcome</h1>
       <h5>To our online inventory e-commerce website!</h5>
+
       <section class="mt-5 mb-5 fs-5">
-        <p>
+        <p class="centered-text">
           This platform allows users to easily browse and manage product inventory in one convenient place.
           Here you can view your product inventory, search and filter products to quickly find what you need, and keep
           track of available items. Our goal is to make inventory management simple, organized, and accessible.
-          If you have an admin account, you will also be able to update and manage the product list. </p>
-        <p>
+          If you have an admin account, you will also be able to update and manage the product list.
+         </p>
+        
+         <p class = "centered-text">
           Click the button below to explore the available products and see how the system works.
         </p>
+
         <a th:href="@{/products}" class="btn btn-primary btn-lg">Get Started</a>
+
       </section>
     </div>
   </main>

@@ -29,8 +29,6 @@ The platform functions by linking product management directly with real-world lo
 
 ## Domain Model
 
-
-
 Our database consists of 6 main entities to support the e-commerce workflow:
 1. **Admin**: Secure access management.
 2. **Product**: Detailed item listings.
@@ -42,8 +40,6 @@ Our database consists of 6 main entities to support the e-commerce workflow:
 ---
 
 ## UI Layout Design
-
-
 
 We have designed a clean, grid-based UI for the following views:
 * **Login Page**: Secure portal for administrators.

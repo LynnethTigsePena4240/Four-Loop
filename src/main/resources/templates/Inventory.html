@@ -1,138 +1,160 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>Inventory Management | Four Loop</title>
     <th:block th:replace="~{fragments/base :: assetsHead}"></th:block>
-    <style>
-        .badge-pill {
-            padding: 5px 12px;
-            border-radius: 50px;
-            font-size: 12px;
-            font-weight: 600;
-        }
-
-        .admin-header {
-            color: #000000;
-            border-bottom: 2px solid #e0e0e0;
-            padding-bottom: 10px;
-            margin-bottom: 30px;
-        }
-    </style>
 </head>
+<body>
 
-<body class="bg-light">
+<nav th:replace="~{fragments/navbar :: navbar}"></nav>
 
-    <nav th:replace="~{fragments/navbar :: navbar}"></nav>
+<main class="app-container">
 
-    <div class="container mt-4 mb-5">
+    <section class="product-card product-card-clear">
+        <div class="products-header">
+            <div>
+                <h2 class="products-title">Inventory Dashboard</h2>
+                <p class="products-subtitle">Search, sort, and manage product stock levels.</p>
+            </div>
 
-        <div class="d-flex justify-content-between align-items-center admin-header">
-            <h2 class="mb-0">Administrative Inventory Dashboard</h2>
             <div sec:authorize="hasRole('ADMIN')">
                 <a th:href="@{/inventory/add}" class="btn btn-dark shadow-sm">Add New Product</a>
             </div>
         </div>
 
-        <div class="product-card shadow-sm" style="background: white; border-radius: 8px; overflow: hidden;">
+        <form method="get" th:action="@{/inventory}" class="products-toolbar">
+            <input type="hidden" name="page" value="0">
+            <input type="hidden" name="direction" th:value="${direction}">
 
-            <div style="padding: 20px; border-bottom: 1px solid #e0e0e0; background-color: #fafafa;">
-                <form method="get" th:action="@{/inventory}"
-                    style="display: flex; gap: 15px; align-items: flex-end; flex-wrap: wrap;">
-                    <input type="hidden" name="page" value="0">
-                    <input type="hidden" name="direction" th:value="${direction}">
-
-                    <div style="flex: 1; min-width: 220px;">
-                        <label style="display: block; margin-bottom: 5px; font-weight: 600; font-size: 14px;">Search
-                            Products</label>
-                        <input type="text" name="search" th:value="${search}" placeholder="Enter product name..."
-                            style="width: 100%; padding: 8px 12px; border: 1px solid #ddd; border-radius: 4px;">
-                    </div>
-
-                    <div style="min-width: 150px;">
-                        <label style="display: block; margin-bottom: 5px; font-weight: 600; font-size: 14px;">Sort
-                            By</label>
-                        <select name="sort" onchange="this.form.submit();"
-                            style="width: 100%; padding: 8px 12px; border: 1px solid #ddd; border-radius: 4px;">
-                            <option value="name" th:selected="${sort == 'name'}">Product Name</option>
-                            <option value="id" th:selected="${sort == 'id'}">Product ID</option>
-                            <option value="quantity" th:selected="${sort == 'quantity'}">Quantity</option>
-                        </select>
-                    </div>
-
-                    <button type="submit" class="btn btn-primary px-4">Search</button>
-                    <a th:href="@{/inventory}" class="btn btn-outline-secondary">Reset</a>
-                </form>
+            <div class="toolbar-group search-group">
+                <label for="inventory-search">Search Products</label>
+                <input
+                    type="text"
+                    id="inventory-search"
+                    name="search"
+                    th:value="${search}"
+                    placeholder="Enter product name...">
             </div>
 
-            <div class="table-responsive">
-                <table class="table align-middle mb-0">
-                    <thead style="background-color: #212529; color: white;">
-                        <tr>
-                            <th style="padding: 15px;">ID</th>
-                            <th style="padding: 15px;">Name</th>
-                            <th style="padding: 15px;">Quantity</th>
-                            <th style="padding: 15px;">Status</th>
-                            <th style="padding: 15px; text-align: center;">Actions</th>
-                        </tr>
-                    </thead>
-
-                    <tbody>
-                        <tr th:each="product : ${products}" style="border-bottom: 1px solid #eee;">
-                            <td style="padding: 15px; color: #0066cc; font-weight: 600;" th:text="${product.id}">1</td>
-                            <td style="padding: 15px; font-weight: 500;" th:text="${product.name}">Product Name</td>
-                            <td style="padding: 15px;" th:text="${product.quantity}">0</td>
-                            <td style="padding: 15px;">
-                                <span th:if="${product.quantity == 0}" class="badge bg-danger badge-pill">Out of
-                                    Stock</span>
-                                <span th:if="${product.quantity > 0 and product.quantity <= 10}"
-                                    class="badge bg-warning text-dark badge-pill">Low Stock</span>
-                                <span th:if="${product.quantity > 10}" class="badge bg-success badge-pill">In
-                                    Stock</span>
-                            </td>
-                            <td style="padding: 15px; text-align: center;">
-                                <div sec:authorize="hasRole('ADMIN')">
-                                    <a th:href="@{/inventory/edit/{id}(id=${product.id})}"
-                                        class="btn btn-sm btn-outline-primary">Update Stock</a>
-                                </div>
-                                <div sec:authorize="hasRole('STAFF')">
-                                    <span class="badge border text-muted" style="background-color: #f8f9fa;">Read
-                                        Only</span>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr th:if="${products.isEmpty()}">
-                            <td colspan="5" class="text-center p-5 text-muted">No inventory records found for your
-                                search.</td>
-                        </tr>
-                    </tbody>
-                </table>
+            <div class="toolbar-group">
+                <label for="inventory-sort">Sort By</label>
+                <select id="inventory-sort" name="sort" onchange="this.form.submit();">
+                    <option value="name" th:selected="${sort == 'name'}">Product Name</option>
+                    <option value="id" th:selected="${sort == 'id'}">Product ID</option>
+                    <option value="quantity" th:selected="${sort == 'quantity'}">Quantity</option>
+                </select>
             </div>
 
-            <div
-                style="padding: 20px; border-top: 1px solid #e0e0e0; display: flex; justify-content: space-between; align-items: center; background-color: #fafafa;">
-                <span class="text-muted small">
-                    Showing <span th:text="${startIndex}">1</span> to <span th:text="${endIndex}">10</span> of <span
-                        th:text="${totalElements}">100</span> entries
-                </span>
+            <div class="toolbar-actions">
+                <button type="submit">Search</button>
+                <a th:href="@{/inventory}">Reset</a>
+            </div>
+        </form>
+    </section>
 
-                <div class="pagination-buttons" style="display: flex; gap: 5px;">
-                    <a th:if="${hasPrevious}"
-                        th:href="@{/inventory(search=${search}, page=${currentPage - 1}, sort=${sort})}"
-                        class="btn btn-sm btn-outline-secondary">Prev</a>
+    <section class="products-table-card">
+        <div class="table-responsive">
+            <table class="table align-middle">
+                <thead>
+                    <tr>
+                        <th scope="col">
+                            <a th:href="@{/inventory(search=${search}, page=${currentPage}, size=${size}, sort='id', direction=${sort == 'id' and direction == 'ASC' ? 'DESC' : 'ASC'})}">
+                            ID
+                            <span th:if="${sort == 'id'}">
+                                <span th:if="${direction == 'ASC'}">▲</span>
+                                <span th:if="${direction == 'DESC'}">▼</span>
+                            </span>
+                        </a>
+                       </th>
+                        <th scope="col">
+                            <a th:href="@{/inventory(search=${search}, page=${currentPage}, size=${size}, sort='name', direction=${sort == 'name' and direction == 'ASC' ? 'DESC' : 'ASC'})}">
+                                Name
+                                <span th:if="${sort == 'name'}">
+                                    <span th:if="${direction == 'ASC'}">▲</span>
+                                    <span th:if="${direction == 'DESC'}">▼</span>
+                                </span>
+                            </a>
+                        </th>
+                        <th scope="col">
+                            <a th:href="@{/inventory(search=${search}, page=${currentPage}, size=${size}, sort='quantity', direction=${sort == 'quantity' and direction == 'ASC' ? 'DESC' : 'ASC'})}">
+                                Quantity
+                                <span th:if="${sort == 'quantity'}">
+                                    <span th:if="${direction == 'ASC'}">▲</span>
+                                    <span th:if="${direction == 'DESC'}">▼</span>
+                                </span>
+                            </a>
+                        </th>
+                        <th scope="col">Status</th>
+                        <th scope="col" class="text-center">Actions</th>
+                    </tr>
+                </thead>
 
-                    <span class="btn btn-sm btn-primary disabled" th:text="${currentPage + 1}">1</span>
+                <tbody>
+                    <tr th:each="product : ${products}">
+                        <td th:text="${product.id}">1</td>
+                        <td th:text="${product.name}">Product Name</td>
+                        <td th:text="${product.quantity}">0</td>
+                        <td>
+                            <span th:if="${product.quantity == 0}" class="status-badge status-out">
+                                Out of Stock
+                            </span>
+                            <span th:if="${product.quantity > 0 and product.quantity <= 10}" class="status-badge status-low">
+                                Low Stock
+                            </span>
+                            <span th:if="${product.quantity > 10}" class="status-badge status-in">
+                                In Stock
+                            </span>
+                        </td>
+                        <td class="text-center">
+                            <div sec:authorize="hasRole('ADMIN')" class="table-actions justify-content-center">
+                                <a th:href="@{/inventory/edit/{id}(id=${product.id})}"
+                                   class="btn btn-sm btn-outline-primary">
+                                    Update Stock
+                                </a>
+                            </div>
 
-                    <a th:if="${hasNext}"
-                        th:href="@{/inventory(search=${search}, page=${currentPage + 1}, sort=${sort})}"
-                        class="btn btn-sm btn-outline-secondary">Next</a>
-                </div>
+                            <div sec:authorize="hasRole('STAFF')">
+                                <span class="read-only-badge">Read Only</span>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr th:if="${products.isEmpty()}">
+                        <td colspan="5" class="empty-state">
+                            No inventory records found for your search.
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="pagination-container">
+            <span>
+                Showing <span th:text="${startIndex}">1</span> to
+                <span th:text="${endIndex}">10</span> of
+                <span th:text="${totalElements}">100</span> entries
+            </span>
+
+            <div class="pagination-controls">
+                <a th:if="${hasPrevious}"
+                   th:href="@{/inventory(search=${search}, page=${currentPage - 1}, sort=${sort})}">
+                    Prev
+                </a>
+
+                <span th:text="${currentPage + 1}">1</span>
+
+                <a th:if="${hasNext}"
+                   th:href="@{/inventory(search=${search}, page=${currentPage + 1}, sort=${sort})}">
+                    Next
+                </a>
             </div>
         </div>
-    </div>
+    </section>
 
-    <th:block th:replace="~{fragments/base :: assetsScripts}"></th:block>
+</main>
+
+<th:block th:replace="~{fragments/base :: assetsScripts}"></th:block>
 </body>
-
 </html>

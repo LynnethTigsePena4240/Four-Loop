@@ -4,15 +4,16 @@
 <head>
     <meta charset="UTF-8">
     <title>About Page</title>
-    <div th:replace="~{fragments/base :: assetsHead}"></div>
+    <th:block th:replace="~{fragments/base :: assetsHead}"></th:block>
+
 </head>
 
 <body>
 
     <nav th:replace="~{fragments/navbar :: navbar}"></nav>
 
-    <div class="app-container text-center">
-        <div class="product-card">
+    <div class="app-container center-page">
+        <div class="product-card center-content">
             <h1 th:text="${message}">Four Loop</h1>
             <p class="fs-5">We are a group of students in the Computer Programming and
                 Computer Systems Analysis programs demonstrating our understanding of

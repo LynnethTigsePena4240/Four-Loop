@@ -23,13 +23,17 @@
       <div class="d-flex align-items-center">
         <span class="text-light me-3" sec:authorize="isAuthenticated()">
           Hello, <span class="text-warning" sec:authentication="name">User</span>
-          [<small sec:authentication="principal.authorities"></small>]
+          <small class="ms-2">
+            [ <span sec:authorize="hasRole('ADMIN')"> ADMIN </span>
+            <span sec:authorize="hasRole('STAFF')"> STAFF </span>
+            <span sec:authorize="hasRole('USER')"> USER </span> ]
+          </small>
         </span>
 
-        <a th:href="@{/login}" class="btn btn-outline-success btn-sm" sec:authorize="!isAuthenticated()">Login</a>
+        <a th:href="@{/login}" class="btn-login" sec:authorize="!isAuthenticated()">Login</a>
 
         <form th:action="@{/logout}" method="post" sec:authorize="isAuthenticated()" class="m-0">
-          <button class="btn btn-outline-danger btn-sm" type="submit">Logout</button>
+          <button class="btn-login" type="submit">Logout</button>
         </form>
       </div>
     </div>

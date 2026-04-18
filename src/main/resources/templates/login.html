@@ -4,137 +4,38 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login</title>
-  <style>
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
 
-    body {
-        font-family: Arial, sans-serif;
-        background: linear-gradient(135deg, #8EB8E5 0%, #7C99B4 100%);
-        min-height: 100vh;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-
-    .container {
-        background: #f9f7f4;
-        padding: 40px;
-        border-radius: 10px;
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-        width: 100%;
-        max-width: 400px;
-    }
-
-    h1 {
-        text-align: center;
-        color: #492C1D;
-        margin-bottom: 30px;
-        font-size: 28px;
-    }
-
-    .form-group {
-        margin-bottom: 20px;
-    }
-
-    label {
-        display: block;
-        margin-bottom: 8px;
-        color: #5B5750;
-        font-weight: bold;
-    }
-
-    input[type="text"],
-    input[type="password"] {
-        width: 100%;
-        padding: 12px;
-        border: 1px solid #ddd;
-        border-radius: 5px;
-        font-size: 14px;
-        transition: border-color 0.3s, box-shadow 0.3s;
-        background: #ffffff;
-    }
-
-    input[type="text"]:focus,
-    input[type="password"]:focus {
-        outline: none;
-        border-color: #7C99B4;
-        box-shadow: 0 0 6px rgba(124, 153, 180, 0.5);
-    }
-
-    button {
-        width: 100%;
-        padding: 12px;
-        background-color: #7C99B4;
-        color: white;
-        border: none;
-        border-radius: 5px;
-        font-size: 16px;
-        font-weight: bold;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-    }
-
-    button:hover {
-        background-color: #6B7F82;
-    }
-
-    .links {
-        text-align: center;
-        margin-top: 20px;
-    }
-
-    .links a {
-        color: #5B5750;
-        text-decoration: none;
-        margin: 0 5px;
-    }
-
-    .links a:hover {
-        text-decoration: underline;
-    }
-
-    .error-message {
-        color: #d32f2f;
-        background: #ffebee;
-        padding: 10px;
-        border-radius: 5px;
-        margin-bottom: 20px;
-        text-align: center;
-    }
-  </style>
+  <!-- Use your fragment -->
+  <th:block th:replace="~{fragments/base :: assetsHead}"></th:block>
 </head>
-<body>
-<div class="container">
-  <h1>Login</h1>
 
-  <!-- Display error message if login failed -->
-  <div th:if="${param.error}">
-    <div class="error-message">
-      Invalid username or password. Please try again.
+<body class="login-page">
+  <div class="login-container">
+    <h1>Login</h1>
+
+    <div th:if="${param.error}">
+      <div class="error-message">
+        Invalid username or password. Please try again.
+      </div>
+    </div>
+
+    <form method="post" action="/login">
+      <div class="form-group">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+      </div>
+
+      <button type="submit" class="btn-login">Login</button>
+    </form>
+
+    <div class="links">
+      Don't have an account? <a href="/register">Register here</a>
     </div>
   </div>
-
-  <form method="post" action="/login">
-    <div class="form-group">
-      <label for="username">Username:</label>
-      <input type="text" id="username" name="username" required>
-    </div>
-
-    <div class="form-group">
-      <label for="password">Password:</label>
-      <input type="password" id="password" name="password" required>
-    </div>
-
-    <button type="submit">Login</button>
-  </form>
-
-  <div class="links">
-    Don't have an account? <a href="/register">Register here</a>
-  </div>
-</div>
 </body>
 </html>

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>Products Page</title>
@@ -9,220 +10,162 @@
 
 <nav th:replace="fragments/navbar :: navbar"></nav>
 
-<div class="product-card" style="background: white; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); overflow: hidden;">
+<main class="app-container">
 
-    <div style="padding: 20px; border-bottom: 1px solid #e0e0e0; display:flex; justify-content: space-between; align-items:center;">
-    <h3 style="margin:0; font-weight:600;">Products</h3>
-    <div sec:authorize="hasRole('ADMIN')">
-        <a th:href="@{/Add-Product}"
-        style="padding: 8px 16px; background-color:#007bff; color:white; border-radius:4px; text-decoration:none; font-weight:600;">
-            Add Product
-        </a>
-    </div>
-    </div>
-
-    <!-- Search and Filters Section -->
-    <div style="padding: 20px; border-bottom: 1px solid #e0e0e0;">
-        <form method="get" th:action="@{/products}" style="display: flex; gap: 15px; align-items: flex-end; flex-wrap: wrap;">
-            <input type="hidden" name="page" value="0">
-            <input type="hidden" name="direction" th:value="${direction}">
-            <!-- Search Input -->
-            <div style="flex: 1; min-width: 220px;">
-                <label for="search-input" style="display: block; margin-bottom: 5px; font-weight: 600; font-size: 14px;">
-                    Search by product name
-                </label>
-                <input
-                        type="text"
-                        id="search-input"
-                        name="search"
-                        th:value="${search}"
-                        placeholder="Enter product name..."
-                        style="width: 100%; padding: 8px 12px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box;">
+    <section class="product-card product-card-clear">
+        <div class="products-header">
+            <div>
+                <h2 class="products-title">Products</h2>
+                <p class="products-subtitle">Browse, sort, and manage available products.</p>
             </div>
 
-            <!-- Sort By Dropdown -->
-            <div style="min-width: 150px;">
-                <label for="sort-select" style="display: block; margin-bottom: 5px; font-weight: 600; font-size: 14px;">
-                    Sort By
-                </label>
-                <select
-                        id="sort-select"
-                        name="sort"
-                        onchange="this.form.submit();"
-                        style="width: 100%; padding: 8px 12px; border: 1px solid #ddd; border-radius: 4px;">
+            <div sec:authorize="hasRole('ADMIN')">
+                <a th:href="@{/Add-Product}" class="btn btn-dark shadow-sm">
+                    Add Product
+                </a>
+            </div>
+        </div>
+
+        <form method="get" th:action="@{/products}" class="products-toolbar">
+            <input type="hidden" name="page" value="0">
+            <input type="hidden" name="direction" th:value="${direction}">
+
+            <div class="toolbar-group search-group">
+                <label for="search-input">Search by product name</label>
+                <input
+                    type="text"
+                    id="search-input"
+                    name="search"
+                    th:value="${search}"
+                    placeholder="Enter product name...">
+            </div>
+
+            <div class="toolbar-group">
+                <label for="sort-select">Sort By</label>
+                <select id="sort-select" name="sort" onchange="this.form.submit();">
                     <option value="name" th:selected="${sort == 'name'}">Product Name</option>
                     <option value="id" th:selected="${sort == 'id'}">Product ID</option>
                     <option value="price" th:selected="${sort == 'price'}">Price</option>
                 </select>
             </div>
 
-            <!-- Page Size Dropdown -->
-            <div style="min-width: 130px;">
-                <label for="size-select" style="display: block; margin-bottom: 5px; font-weight: 600; font-size: 14px;">
-                    Per Page
-                </label>
-                <select
-                        id="size-select"
-                        name="size"
-                        onchange="this.form.submit();"
-                        style="width: 100%; padding: 8px 12px; border: 1px solid #ddd; border-radius: 4px;">
+            <div class="toolbar-group">
+                <label for="size-select">Per Page</label>
+                <select id="size-select" name="size" onchange="this.form.submit();">
                     <option value="10" th:selected="${size == 10}">10</option>
                     <option value="25" th:selected="${size == 25}">25</option>
                     <option value="50" th:selected="${size == 50}">50</option>
                 </select>
             </div>
 
-            <!-- Search Button -->
-            <button
-                    type="submit"
-                    style="padding: 8px 16px; background-color: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: 600;">
-                Search
-            </button>
-
-            <!-- Reset Button -->
-            <a
-                    th:href="@{/products}"
-                    style="padding: 8px 16px; background-color: #6c757d; color: white; border-radius: 4px; cursor: pointer; font-weight: 600; text-decoration: none; display: inline-block;">
-                Reset
-            </a>
+            <div class="toolbar-actions">
+                <button type="submit">Search</button>
+                <a th:href="@{/products}">Reset</a>
+            </div>
         </form>
-    </div>
+    </section>
 
-    <!-- Table -->
-    <div class="table-responsive">
-        <table class="table align-middle" style="margin-bottom: 0;">
-            <thead style="background-color: #f5f5f5; border-bottom: 2px solid #ddd;">
-            <tr>
-                <th scope="col" style="padding: 15px; text-align: left; font-weight: 600; color: #333; width: 20%;">
-                    <a th:href="@{/products(search=${search}, page=${currentPage}, size=${size}, sort='id', direction=${sort == 'id' and direction == 'ASC' ? 'DESC' : 'ASC'})}"
-                       style="color: #333; text-decoration: none; cursor: pointer;">
-                        ID
-                        <span style="font-size: 12px; color: #999;" th:if="${sort == 'id'}">
-                            <span th:if="${direction == 'ASC'}">▲</span>
-                            <span th:if="${direction == 'DESC'}">▼</span>
-                        </span>
-                    </a>
-                </th>
-
-                <th scope="col" style="padding: 15px; text-align: left; font-weight: 600; color: #333; width: 35%;">
-                    <a th:href="@{/products(search=${search}, page=${currentPage}, size=${size}, sort='name', direction=${sort == 'name' and direction == 'ASC' ? 'DESC' : 'ASC'})}"
-                       style="color: #333; text-decoration: none; cursor: pointer;">
-                        Name
-                        <span style="font-size: 12px; color: #999;" th:if="${sort == 'name'}">
-                            <span th:if="${direction == 'ASC'}">▲</span>
-                            <span th:if="${direction == 'DESC'}">▼</span>
-                        </span>
-                    </a>
-                </th>
-
-              
-
-                <th scope="col" style="padding: 15px; text-align: left; font-weight: 600; color: #333; width: 25%;">
-                    <a th:href="@{/products(search=${search}, page=${currentPage}, size=${size}, sort='price', direction=${sort == 'price' and direction == 'ASC' ? 'DESC' : 'ASC'})}"
-                       style="color: #333; text-decoration: none; cursor: pointer;">
-                        Price
-                        <span style="font-size: 12px; color: #999;" th:if="${sort == 'price'}">
-                            <span th:if="${direction == 'ASC'}">▲</span>
-                            <span th:if="${direction == 'DESC'}">▼</span>
-        
-                        </span>
-                    </a>
-                </th>
-                <div sec:authorize="hasRole('ADMIN')">
-                    <th scope="col" style="padding: 15px; text-align: left; font-weight: 600; color: #333; width: 20%;">
-                        Actions
+    <section class="products-table-card">
+        <div class="table-responsive">
+            <table class="table align-middle">
+                <thead>
+                <tr>
+                    <th scope="col">
+                        <a th:href="@{/products(search=${search}, page=${currentPage}, size=${size}, sort='id', direction=${sort == 'id' and direction == 'ASC' ? 'DESC' : 'ASC'})}">
+                            ID
+                            <span th:if="${sort == 'id'}">
+                                <span th:if="${direction == 'ASC'}">▲</span>
+                                <span th:if="${direction == 'DESC'}">▼</span>
+                            </span>
+                        </a>
                     </th>
-                </div>
 
-            </tr>
-            </thead>
+                    <th scope="col">
+                        <a th:href="@{/products(search=${search}, page=${currentPage}, size=${size}, sort='name', direction=${sort == 'name' and direction == 'ASC' ? 'DESC' : 'ASC'})}">
+                            Name
+                            <span th:if="${sort == 'name'}">
+                                <span th:if="${direction == 'ASC'}">▲</span>
+                                <span th:if="${direction == 'DESC'}">▼</span>
+                            </span>
+                        </a>
+                    </th>
 
-            <tbody>
-            <tr th:each="product : ${products}" style="border-bottom: 1px solid #eee; transition: background-color 0.2s;">
-                <td style="padding: 15px; color: #0066cc; font-size: 14px;" th:text="${product.id}">1</td>
-                <td style="padding: 15px; color: #333; font-size: 14px;" th:text="${product.name}">Electronic</td>
-                <td style="padding: 15px; color: #999; font-size: 14px;" th:text="${'$' + #numbers.formatDecimal(product.price, 1, 2)}">$0.00</td>
-                <td style="padding: 15px; color: #999; font-size: 14px;">
-                    <div style="display: flex; gap: 8px;" sec:authorize="hasRole('ADMIN')">
-                        <a th:href="@{/update-product/{id}(id=${product.id})}" class="btn btn-sm btn-outline-primary">Edit</a>
-                        <br>
-                        <a th:href="@{/delete-product/{id}(id=${product.id})}" class="btn btn-sm btn-outline-danger">Delete</a>
-                    </div>
-                </td>
-             </tr>
+                    <th scope="col">
+                        <a th:href="@{/products(search=${search}, page=${currentPage}, size=${size}, sort='price', direction=${sort == 'price' and direction == 'ASC' ? 'DESC' : 'ASC'})}">
+                            Price
+                            <span th:if="${sort == 'price'}">
+                                <span th:if="${direction == 'ASC'}">▲</span>
+                                <span th:if="${direction == 'DESC'}">▼</span>
+                            </span>
+                        </a>
+                    </th>
 
-             <tr th:if="${products.isEmpty()}" style="border-bottom: 1px solid #eee;">
-                <td colspan="5" style="padding: 20px; text-align: center; color: #999;">
-                    No products found
-                </td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
+                    <th scope="col" sec:authorize="hasRole('ADMIN')">Actions</th>
+                </tr>
+                </thead>
 
-    <!-- Pagination Footer -->
-    <div style="padding: 15px 20px; border-top: 1px solid #e0e0e0; display: flex; justify-content: space-between; align-items: center; font-size: 14px; color: #666; flex-wrap: wrap; gap: 10px;">
-        <span>
-            Showing <span th:text="${startIndex}">1</span> to
-            <span th:text="${endIndex}">10</span> of
-            <span th:text="${totalElements}">100</span> entries
-        </span>
+                <tbody>
+                <tr th:each="product : ${products}">
+                    <td th:text="${product.id}">1</td>
+                    <td th:text="${product.name}">Electronic</td>
+                    <td th:text="${'$' + #numbers.formatDecimal(product.price, 1, 2)}">$0.00</td>
 
-        <!-- Pagination Controls -->
-        <div style="display: flex; gap: 5px; align-items: center; flex-wrap: wrap;">
+                    <td sec:authorize="hasRole('ADMIN')">
+                        <div class="table-actions">
+                            <a th:href="@{/update-product/{id}(id=${product.id})}" class="btn btn-sm btn-outline-primary">Edit</a>
+                            <a th:href="@{/delete-product/{id}(id=${product.id})}" class="btn btn-sm btn-outline-danger">Delete</a>
+                        </div>
+                    </td>
+                </tr>
 
-            <!-- First Page -->
-            <a th:if="${currentPage > 0}"
-               th:href="@{/products(search=${search}, page=0, size=${size}, sort=${sort}, direction=${direction})}"
-               style="padding: 6px 10px; border: 1px solid #ddd; background: white; border-radius: 4px; font-size: 12px; text-decoration: none; color: #333;">
-                « First
-            </a>
-            <span th:if="${currentPage == 0}"
-                  style="padding: 6px 10px; border: 1px solid #ddd; background: #f5f5f5; border-radius: 4px; font-size: 12px; color: #999;">
-                « First
-            </span>
-
-            <!-- Previous Page -->
-            <a th:if="${hasPrevious}"
-               th:href="@{/products(search=${search}, page=${currentPage - 1}, size=${size}, sort=${sort}, direction=${direction})}"
-               style="padding: 6px 10px; border: 1px solid #ddd; background: white; border-radius: 4px; font-size: 12px; text-decoration: none; color: #333;">
-                ‹ Prev
-            </a>
-            <span th:if="${!hasPrevious}"
-                  style="padding: 6px 10px; border: 1px solid #ddd; background: #f5f5f5; border-radius: 4px; font-size: 12px; color: #999;">
-                ‹ Prev
-            </span>
-
-            <!-- Page Info -->
-            <span style="padding: 6px 10px; font-size: 12px;">
-                Page <span th:text="${currentPage + 1}">1</span> of <span th:text="${totalPages}">5</span>
-            </span>
-
-            <!-- Next Page -->
-            <a th:if="${hasNext}"
-               th:href="@{/products(search=${search}, page=${currentPage + 1}, size=${size}, sort=${sort}, direction=${direction})}"
-               style="padding: 6px 10px; border: 1px solid #ddd; background: white; border-radius: 4px; font-size: 12px; text-decoration: none; color: #333;">
-                Next ›
-            </a>
-            <span th:if="${!hasNext}"
-                  style="padding: 6px 10px; border: 1px solid #ddd; background: #f5f5f5; border-radius: 4px; font-size: 12px; color: #999;">
-                Next ›
-            </span>
-
-            <!-- Last Page -->
-            <a th:if="${currentPage < totalPages - 1}"
-               th:href="@{/products(search=${search}, page=${totalPages - 1}, size=${size}, sort=${sort}, direction=${direction})}"
-               style="padding: 6px 10px; border: 1px solid #ddd; background: white; border-radius: 4px; font-size: 12px; text-decoration: none; color: #333;">
-                Last »
-            </a>
-            <span th:if="${currentPage >= totalPages - 1}"
-                  style="padding: 6px 10px; border: 1px solid #ddd; background: #f5f5f5; border-radius: 4px; font-size: 12px; color: #999;">
-                Last »
-            </span>
+                <tr th:if="${products.isEmpty()}">
+                    <td colspan="5" class="empty-state">No products found</td>
+                </tr>
+                </tbody>
+            </table>
         </div>
-    </div>
 
-</div>
+        <div class="pagination-container">
+            <span>
+                Showing <span th:text="${startIndex}">1</span> to
+                <span th:text="${endIndex}">10</span> of
+                <span th:text="${totalElements}">100</span> entries
+            </span>
+
+            <div class="pagination-controls">
+                <a th:if="${currentPage > 0}"
+                   th:href="@{/products(search=${search}, page=0, size=${size}, sort=${sort}, direction=${direction})}">
+                    « First
+                </a>
+                <span th:if="${currentPage == 0}">« First</span>
+
+                <a th:if="${hasPrevious}"
+                   th:href="@{/products(search=${search}, page=${currentPage - 1}, size=${size}, sort=${sort}, direction=${direction})}">
+                    ‹ Prev
+                </a>
+                <span th:if="${!hasPrevious}">‹ Prev</span>
+
+                <span>
+                    Page <span th:text="${currentPage + 1}">1</span> of
+                    <span th:text="${totalPages}">5</span>
+                </span>
+
+                <a th:if="${hasNext}"
+                   th:href="@{/products(search=${search}, page=${currentPage + 1}, size=${size}, sort=${sort}, direction=${direction})}">
+                    Next ›
+                </a>
+                <span th:if="${!hasNext}">Next ›</span>
+
+                <a th:if="${currentPage < totalPages - 1}"
+                   th:href="@{/products(search=${search}, page=${totalPages - 1}, size=${size}, sort=${sort}, direction=${direction})}">
+                    Last »
+                </a>
+                <span th:if="${currentPage >= totalPages - 1}">Last »</span>
+            </div>
+        </div>
+    </section>
+
+</main>
 
 <th:block th:replace="fragments/base :: assetsScripts"></th:block>
 </body>
