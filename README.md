@@ -1,7 +1,7 @@
 # CPAN-228 Assignment 0: Project Planning
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/LynnethTigsePena4240/Four-Loop/main/logo.png" alt="The 404s v.2.0 Logo" width="350">
+  <img src="src/main/resources/static/images/logo.png" alt="The 404s v.2.0 Logo" width="350">
 </p>
 
 | Item | Details |
@@ -15,9 +15,11 @@
 ---
 
 ## What We're Building
+
 Our team is developing a **Category 1: E-Commerce Platform**. We decided to move away from projects similar to our previous work to challenge ourselves with a new category. The application is being built as a **Spring Boot** project, utilizing **JPA** for data management, **Thymeleaf** for the user interface, and **Spring Security** to handle protected access.
 
 ## Core Concept: How It Works
+
 The platform functions by linking product management directly with real-world logistics:
 
 * **Product Organization:** Every item in the system is tied to a specific *Brand*, making the catalog easy to navigate and filter.
@@ -30,6 +32,7 @@ The platform functions by linking product management directly with real-world lo
 ## Domain Model
 
 Our database consists of 6 main entities to support the e-commerce workflow:
+
 1. **Admin**: Secure access management.
 2. **Product**: Detailed item listings.
 3. **Brand**: Categorization of products.
@@ -42,6 +45,7 @@ Our database consists of 6 main entities to support the e-commerce workflow:
 ## UI Layout Design
 
 We have designed a clean, grid-based UI for the following views:
+
 * **Login Page**: Secure portal for administrators.
 * **Home/Dashboard**: Summary of products, inventory, and centers.
 * **Product Management**: Views for adding and searching for items.
@@ -54,27 +58,33 @@ We have designed a clean, grid-based UI for the following views:
 **Important:** Docker Desktop must be installed and running.
 
 1. **Clone the respository**
+
    ```bash
    git clone https://github.com/LynnethTigsePena4240/Four-Loop.git
    cd Four-Loop
    ```
-3. **Build the application**
+
+2. **Build the application**
+
    ```bash
    docker compose build
    ```
-5. **Start the application**
+
+3. **Start the application**
+
    ```bash
    docker compose up -d
    ```
-6. **Open in browser**
+
+4. **Open in browser**
+
    ```bash
    http://localhost:8080
    ```
-   
 
-## Work Distribution 
+## Work Distribution
 
 * **Divine Peralta:** Form Layout and UI Design/Theme
-* **Krishna Pushparajah:** Database Persistence and Protected Routes 
-* **Lena Mukhtar:** Search and Sort View and Admin Interface and Roles 
-* **Lynneth Tigse-Pena:** Navigation, Pages and User, Registration and Log-in Page 
+* **Krishna Pushparajah:** Database Persistence and Protected Routes
+* **Lena Mukhtar:** Search and Sort View and Admin Interface and Roles
+* **Lynneth Tigse-Pena:** Navigation, Pages and User, Registration and Log-in Page
