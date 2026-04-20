@@ -57,7 +57,7 @@ We have designed a clean, grid-based UI for the following views:
 
 **Important:** Docker Desktop must be installed and running.
 
-1. **Clone the respository**
+1. **Clone the repository**
 
    ```bash
    git clone https://github.com/LynnethTigsePena4240/Four-Loop.git
